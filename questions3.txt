@@ -1,0 +1,51 @@
+# Answer the following questions for the Amazon assignment
+
+1. What data preparation steps did you apply? Did you experiment with different preparation approaches when developing your topic model?
+I have tried multiple approaches, in which I have taken a distributed random subset of the whole 22M data points. 
+This has given me a mix of multiple categories which usually didn't have a typical distribution of data.
+To improvise on that, I have calculated the total number of lines for the MetaData Json (meta_Home_and_Kitchen) file and then split it into 10 chunks/ranges. 
+After printing the sample set for the JSON file, I take out all the categories with their value counts.
+This would give me the distribution of categories and would give me a simpler view of the distribution of my product ids.
+
+
+2. If you subdivided the data before topic modeling, describe the steps you took and your findings.
+I have picked three categories that gave me approximately 15% of the product ID from all the products. 
+The categories selected are:
+Storage & Organization    78111
+Furniture                 75419
+Bath                      53144
+I take the list of all asin (Product IDs) and map the relevant JSON records which give reviews from the Home_and_Kitchen JSON file mapping to this subset of product ids.
+The filtered dataset is put into the pandas data frame where I further filter the dataset with verified = True, Count of votes > 1, and Overall rating should be above 4.0.
+Such multiple hit and trial options to filter the dataset finally provide me with 1% of the JSON data.
+-> Percentage of 274678 asins picked out of 21928568 = 1.252603453175784%
+The data frame is now ready for LDA processing.
+
+3. Reflect on your discovered topics based on the most predictive words for those topics: do you see the categories that certain topics represent? 
+Inspect a few reviews in those topics: do the reviews align with your expectations about the meaning of the topic?
+Since my categories were regarding Storage & Organization, Furniture, and Bath:
+Topic 2:  great sturdy mattress headboard box together easy put frame bed - gave me an indication that it belonged to Furniture
+Topic 9:  great nice soft like love bathroom color curtain shower towel - gave me an indication that it belonged to the Bath category
+Topic 16: plastic keep jar great seal size use food lid container - gave me an indication that it belonged to Storage & Organization
+While checking for these words in the trimmed JSON file, I found that these topics belong to reviews for their respective categories. Some words are common for a lot of other categories as well.
+As per my analysis, these reviews align with my expectations of their categories.
+
+
+4. Explain how coherence (assessed manually and quantitatively) informed both the revision to your approach (see deliverables 1.C) 
+as well as the comparison between the initial and resulting model(s). Which model did you prefer and why?
+
+I have tried multiple options to switch the number of workers, number of passes, alpha values and the total number of topics.
+The number of passes makes the model run slower but I get higher coherence than the other models.
+The highest coherence was found with:
+number of topics = 20
+number of passes = 8
+number of workers = 4
+Coherence = 0.512073200304486
+I have tried multiple combinations of models wherein I have chosen model 7 to be my preferred model since it gave me the highest coherence score and the topics were also formed in a better way.
+
+
+If you used AI assistants such as Copilot & ChapGPT:
+
+- Which AI tools did you use and for what part of the solution?
+I have used ChatGPT to fix errors or typos in my code. This is in general applying to the whole ipynb file.
+
+- Optional: share any reflection on using such tools. For instance, did they contribute to your learning? Were they more helpful than harmful? Did you notice any mistakes in their outputs?
